@@ -7,4 +7,5 @@ import java.util.List;
 public interface IncomeRepository {
     void save(Income income);
     List<Income> findAllByCdUser(int page, String cdUser);
+    void deleteByCdIncome(String cdIncome);
 }

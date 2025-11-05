@@ -8,4 +8,5 @@ import java.util.List;
 public interface IncomeServiceInterface {
     Income save(String ds_income, BigDecimal vl_income, String cd_user);
     List<Income> findAllByCdUser(int page, String cdUser);
+    void deleteByCdIncome(String cdIncome);
 }

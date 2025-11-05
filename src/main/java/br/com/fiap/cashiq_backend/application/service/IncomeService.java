@@ -25,4 +25,9 @@ public class IncomeService implements IncomeServiceInterface {
     public List<Income> findAllByCdUser(int page, String cdUser) {
         return incomeRepository.findAllByCdUser(page, cdUser);
     }
+
+    @Override
+    public void deleteByCdIncome(String cdIncome) {
+        incomeRepository.deleteByCdIncome(cdIncome);
+    }
 }

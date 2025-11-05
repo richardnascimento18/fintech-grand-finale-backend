@@ -39,4 +39,9 @@ public class IncomeRepositoryAdapter implements IncomeRepository {
 
         return incomeList;
     }
+
+    @Override
+    public void deleteByCdIncome(String cdIncome) {
+        incomeRepositoryImplementation.deleteById(cdIncome);
+    }
 }

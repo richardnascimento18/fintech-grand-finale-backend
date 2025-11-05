@@ -52,4 +52,16 @@ public class IncomeController {
         return new ApiResponseDto<>(200, API_VERSION, incomeResponseDtoList, links);
     }
 
+    @DeleteMapping("/{cdIncome}")
+    public ApiResponseDto deleteIncome(@PathVariable String cdIncome) {
+        incomeService.deleteByCdIncome(cdIncome);
+
+        Map<String, ApiResponseDto.Link> links = new LinkedHashMap<>();
+        links.put("previous", new ApiResponseDto.Link("GET", "http://localhost:8080/api/v1/income/{user-id}/{page}", "all-income-from-user"));
+        links.put("current", new ApiResponseDto.Link("DELETE", "http://localhost:8080/api/v1/income/" + cdIncome, "delete-income"));
+        links.put("next", new ApiResponseDto.Link("POST", "http://localhost:8080/api/v1/income", "add-income"));
+
+        return new ApiResponseDto<>(204, API_VERSION, null, links);
+    }
+
 }
