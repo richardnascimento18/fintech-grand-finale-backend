@@ -5,6 +5,7 @@ import br.com.fiap.cashiq_backend.domain.port.out.Income.IncomeRepository;
 import br.com.fiap.cashiq_backend.domain.port.out.Income.IncomeServiceInterface;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class IncomeService implements IncomeServiceInterface {
     private final IncomeRepository incomeRepository;
@@ -18,5 +19,10 @@ public class IncomeService implements IncomeServiceInterface {
 
         incomeRepository.save(income);
         return income;
+    }
+
+    @Override
+    public List<Income> findAllByCdUser(int page, String cdUser) {
+        return incomeRepository.findAllByCdUser(page, cdUser);
     }
 }

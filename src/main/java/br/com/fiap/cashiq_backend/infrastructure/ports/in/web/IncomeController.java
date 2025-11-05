@@ -7,12 +7,10 @@ import br.com.fiap.cashiq_backend.infrastructure.ports.in.web.dto.response.ApiRe
 import br.com.fiap.cashiq_backend.infrastructure.ports.in.web.dto.response.IncomeResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,11 +31,25 @@ public class IncomeController {
         IncomeResponseDto dto = new IncomeResponseDto(createdIncome.getCd_income(), createdIncome.getDs_income(), createdIncome.getVl_income());
 
         Map<String, ApiResponseDto.Link> links = new LinkedHashMap<>();
-        links.put("previous", new ApiResponseDto.Link("GET", "http://localhost:8080/api/v1/income/{user-id}", "all-income-from-user"));
+        links.put("previous", new ApiResponseDto.Link("GET", "http://localhost:8080/api/v1/income/{user-id}/{page}", "all-income-from-user"));
         links.put("current", new ApiResponseDto.Link("POST", "http://localhost:8080/api/v1/income", "add-income"));
         links.put("next", new ApiResponseDto.Link("DELETE", "http://localhost:8080/api/v1/income/" + createdIncome.getCd_income(), "delete-income"));
 
         return new ApiResponseDto<>(201, API_VERSION, dto, links);
+    }
+
+    @GetMapping("/{userId}/{page}")
+    public ApiResponseDto<List<IncomeResponseDto>> getAllByUserId(@PathVariable String userId, @PathVariable int page) {
+        List<Income> incomeList = incomeService.findAllByCdUser(page, userId);
+        List<IncomeResponseDto> incomeResponseDtoList = incomeList.stream()
+                .map(income -> new IncomeResponseDto(income.getCd_income(), income.getDs_income(), income.getVl_income()))
+                .toList();
+
+        Map<String, ApiResponseDto.Link> links = new LinkedHashMap<>();
+        links.put("previous", new ApiResponseDto.Link("POST", "http://localhost:8080/api/v1/income", "add-income"));
+        links.put("current", new ApiResponseDto.Link("GET", "http://localhost:8080/api/v1/income/{user-id}/{page}", "all-income-from-user"));
+
+        return new ApiResponseDto<>(200, API_VERSION, incomeResponseDtoList, links);
     }
 
 }
