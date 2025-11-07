@@ -1,7 +1,9 @@
 package br.com.fiap.cashiq_backend.infrastructure.config;
 
+import br.com.fiap.cashiq_backend.application.service.ExpenseService;
 import br.com.fiap.cashiq_backend.application.service.IncomeService;
 import br.com.fiap.cashiq_backend.application.service.UserService;
+import br.com.fiap.cashiq_backend.domain.port.out.Expense.ExpenseRepository;
 import br.com.fiap.cashiq_backend.domain.port.out.Income.IncomeRepository;
 import br.com.fiap.cashiq_backend.domain.port.out.User.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,11 @@ public class ApplicationConfig {
     @Bean
     public IncomeService incomeService(IncomeRepository incomeRepository) {
         return new IncomeService(incomeRepository);
+    }
+
+    @Bean
+    public ExpenseService expenseService(ExpenseRepository expenseRepository) {
+        return new ExpenseService(expenseRepository);
     }
 
     @Bean

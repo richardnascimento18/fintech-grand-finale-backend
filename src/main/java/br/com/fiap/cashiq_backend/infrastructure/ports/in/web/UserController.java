@@ -69,4 +69,15 @@ public class UserController {
         return new ApiResponseDto<>(201, API_VERSION, new UserResponseDto(UUID.fromString(id), email), null);
     }
 
+    @PostMapping("/logout")
+    public ApiResponseDto<Map<String, String>> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setHttpOnly(false);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setAttribute("SameSite", "None");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return new ApiResponseDto<>(200, API_VERSION, Map.of("message", "Logged out successfully"), null);
+    }
 }
