@@ -25,4 +25,14 @@ public class UserService implements UserServiceInterface {
         userRepository.save(user);
         return user;
     }
+
+    @Override
+    public User login(String email_user, String password_user) {
+        User user = userRepository.findByEmail(email_user);
+
+        if(user == null) throw new RuntimeException();
+        if(!passwordEncoder.matches(password_user, user.getPassword_user())) throw new RuntimeException();
+
+        return user;
+    }
 }

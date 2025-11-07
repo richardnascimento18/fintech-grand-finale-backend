@@ -7,6 +7,12 @@ public class User {
     private String email_user;
     private String password_user;
 
+    public User(UUID cd_user, String email_user, String password_user) {
+        this.cd_user = cd_user;
+        this.email_user = email_user;
+        this.password_user = password_user;
+    }
+
     public User(String email_user, String password_user) {
         this.cd_user = UUID.randomUUID();
         this.email_user = email_user;
